@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+    </marker>
+    <marker id="rayArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="430" fill="#ffffff"/>
+
+  <!-- Camera -->
+  <circle cx="120" cy="230" r="18" fill="#111827"/>
+  <text x="88" y="270" font-family="Arial, sans-serif" font-size="22" fill="#111827">camera center o</text>
+
+  <!-- Image plane -->
+  <polygon points="285,105 465,150 465,325 285,280" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+  <line x1="285" y1="105" x2="285" y2="280" stroke="#2563eb" stroke-width="2"/>
+  <line x1="465" y1="150" x2="465" y2="325" stroke="#2563eb" stroke-width="2"/>
+  <text x="315" y="84" font-family="Arial, sans-serif" font-size="24" fill="#1f2937">image plane</text>
+
+  <!-- Pixel -->
+  <circle cx="374" cy="205" r="8" fill="#f59e0b" stroke="#92400e" stroke-width="2"/>
+  <text x="386" y="199" font-family="Arial, sans-serif" font-size="22" fill="#92400e">pixel (u, v)</text>
+
+  <!-- Ray -->
+  <line x1="120" y1="230" x2="890" y2="145" stroke="#dc2626" stroke-width="4" marker-end="url(#rayArrow)"/>
+  <text x="615" y="118" font-family="Arial, sans-serif" font-size="26" fill="#dc2626">ray r(t) = o + t d</text>
+
+  <!-- Line from camera to pixel highlighted -->
+  <line x1="120" y1="230" x2="374" y2="205" stroke="#dc2626" stroke-width="3" stroke-dasharray="8 8"/>
+
+  <!-- Near/Far markers -->
+  <line x1="515" y1="188" x2="515" y2="255" stroke="#059669" stroke-width="4"/>
+  <text x="491" y="286" font-family="Arial, sans-serif" font-size="22" fill="#047857">near t_n</text>
+
+  <line x1="790" y1="158" x2="790" y2="225" stroke="#7c3aed" stroke-width="4"/>
+  <text x="770" y="255" font-family="Arial, sans-serif" font-size="22" fill="#6d28d9">far t_f</text>
+
+  <!-- Sample points -->
+  <circle cx="548" cy="183" r="7" fill="#111827"/>
+  <circle cx="600" cy="177" r="7" fill="#111827"/>
+  <circle cx="652" cy="171" r="7" fill="#111827"/>
+  <circle cx="704" cy="165" r="7" fill="#111827"/>
+  <circle cx="756" cy="159" r="7" fill="#111827"/>
+  <text x="560" y="336" font-family="Arial, sans-serif" font-size="22" fill="#111827">sample 3D points along the ray</text>
+
+  <!-- Direction label -->
+  <line x1="184" y1="222" x2="260" y2="214" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="205" y="200" font-family="Arial, sans-serif" font-size="24" fill="#2563eb">d</text>
+
+  <!-- Coordinate transform note -->
+  <rect x="72" y="26" width="845" height="45" rx="8" fill="#f9fafb" stroke="#d1d5db"/>
+  <text x="95" y="56" font-family="Arial, sans-serif" font-size="21" fill="#374151">
+    pixel (u, v) + camera intrinsics K + camera pose -> world-space ray
+  </text>
+</svg>
