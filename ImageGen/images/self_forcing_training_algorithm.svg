@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title  { font: 700 20px Arial, sans-serif; fill: #0f172a; }
+      .sec    { font: 700 13px Arial, sans-serif; fill: #1e293b; }
+      .small  { font: 12px Arial, sans-serif; fill: #475569; }
+      .tiny   { font: 11px Arial, sans-serif; fill: #64748b; }
+      .code   { font: 11px 'Courier New', monospace; fill: #1e293b; }
+      .arrow  { stroke: #334155; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+      .arrow-g{ stroke: #16a34a; stroke-width: 1.8; fill: none; marker-end: url(#arr-g); }
+      .arrow-r{ stroke: #dc2626; stroke-width: 1.8; fill: none; marker-end: url(#arr-r); }
+      .arrow-b{ stroke: #2563eb; stroke-width: 1.8; fill: none; marker-end: url(#arr-b); }
+    </style>
+  </defs>
+
+  <rect x="10" y="10" width="960" height="540" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="14"/>
+  <text x="490" y="46" text-anchor="middle" class="title">Self Forcing Training Algorithm — Gradient Truncation + Stochastic Step Sampling</text>
+
+  <!-- ─────────────────────────────────────────────
+       LEFT: 4-step denoising per frame (vertical)
+  ───────────────────────────────────────────── -->
+  <text x="200" y="72" text-anchor="middle" class="sec">Denoising Steps for Frame i  (T=4 steps)</text>
+  <text x="200" y="90" text-anchor="middle" class="tiny">Randomly sample stopping step  s ~ Uniform{1,2,3,4}</text>
+
+  <!-- Step t=1000: pure noise -->
+  <rect x="60" y="105" width="280" height="48" rx="6" fill="#111827" stroke="#374151" stroke-width="2"/>
+  <text x="200" y="126" text-anchor="middle" font-family="Arial" font-size="13" font-weight="700" fill="#f9fafb">Step j=4   (t=1000: pure noise)</text>
+  <text x="200" y="144" text-anchor="middle" class="tiny" fill="#9ca3af">x_{t4}^i ~ N(0,I)   — no gradient</text>
+
+  <path d="M200 155 V172" class="arrow"/>
+
+  <!-- Step t=750 -->
+  <rect x="60" y="175" width="280" height="48" rx="6" fill="#374151" stroke="#6b7280" stroke-width="2"/>
+  <text x="200" y="196" text-anchor="middle" font-family="Arial" font-size="13" font-weight="700" fill="#f9fafb">Step j=3   (t=750)</text>
+  <text x="200" y="214" text-anchor="middle" class="tiny" fill="#d1d5db">predict x̂₀, re-noise → x_{t3}   — no gradient</text>
+
+  <path d="M200 225 V242" class="arrow"/>
+
+  <!-- Step t=500 — example stopping step s=2 highlighted -->
+  <rect x="60" y="245" width="280" height="48" rx="6" fill="#1d4ed8" stroke="#3b82f6" stroke-width="2.5"/>
+  <text x="200" y="266" text-anchor="middle" font-family="Arial" font-size="13" font-weight="700" fill="#ffffff">Step j=2   (t=500) ← s=2 in this iteration</text>
+  <text x="200" y="284" text-anchor="middle" class="tiny" fill="#bfdbfe">predict x̂₀^i   — GRADIENT ENABLED HERE</text>
+
+  <path d="M200 295 V312" class="arrow"/>
+
+  <!-- Step t=250 — greyed out when s=2 -->
+  <rect x="60" y="315" width="280" height="48" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" opacity="0.5"/>
+  <text x="200" y="336" text-anchor="middle" font-family="Arial" font-size="13" fill="#94a3b8">Step j=1   (t=250)</text>
+  <text x="200" y="354" text-anchor="middle" class="tiny" fill="#94a3b8">skipped when s=2</text>
+
+  <!-- stopping step annotation -->
+  <rect x="350" y="248" width="220" height="42" rx="5" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="460" y="265" text-anchor="middle" class="sec" fill="#1d4ed8">Gradient truncation:</text>
+  <text x="460" y="281" text-anchor="middle" class="tiny" fill="#1d4ed8">only step s gets gradients</text>
+  <path d="M350 270 H342" class="arrow-b"/>
+
+  <!-- stochastic sampling annotation -->
+  <rect x="350" y="318" width="220" height="54" rx="5" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="460" y="336" text-anchor="middle" class="sec" fill="#15803d">Stochastic step sampling:</text>
+  <text x="460" y="352" text-anchor="middle" class="tiny" fill="#15803d">next iter: s=1 or s=3 or s=4</text>
+  <text x="460" y="368" text-anchor="middle" class="tiny" fill="#15803d">all steps trained over time</text>
+
+  <!-- ─────────────────────────────────────────────
+       CACHE KV and next frame
+  ───────────────────────────────────────────── -->
+  <text x="200" y="385" text-anchor="middle" class="sec">After frame i completes:</text>
+
+  <!-- x̂₀ clean prediction -->
+  <rect x="60" y="395" width="130" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="125" y="413" text-anchor="middle" class="sec" fill="#15803d">x̂₀^i</text>
+  <text x="125" y="430" text-anchor="middle" class="tiny">clean prediction</text>
+
+  <path d="M192 417 H224" class="arrow-g"/>
+
+  <!-- cache kv -->
+  <rect x="230" y="395" width="110" height="44" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="285" y="413" text-anchor="middle" class="sec" fill="#15803d">kv^i</text>
+  <text x="285" y="430" text-anchor="middle" class="tiny">KV embeddings</text>
+
+  <path d="M342 417 H374" class="arrow-g"/>
+
+  <!-- KV cache buffer -->
+  <rect x="380" y="395" width="130" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="445" y="413" text-anchor="middle" class="sec" fill="#1d4ed8">KV cache</text>
+  <text x="445" y="430" text-anchor="middle" class="tiny">[kv¹, kv², ..., kv^i]</text>
+
+  <!-- arrow to next frame -->
+  <path d="M445 441 C445 465 200 465 200 477" class="arrow"/>
+  <text x="370" y="462" text-anchor="middle" class="tiny">used as context for frame i+1</text>
+
+  <!-- next frame start -->
+  <rect x="60" y="480" width="280" height="40" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="200" y="497" text-anchor="middle" class="sec" fill="#92400e">Frame i+1: sample x_{t4}^{i+1} ~ N(0,I)</text>
+  <text x="200" y="513" text-anchor="middle" class="tiny">denoise conditioned on KV cache — same process</text>
+
+  <!-- ─────────────────────────────────────────────
+       RIGHT: Summary / key properties
+  ───────────────────────────────────────────── -->
+  <rect x="620" y="70" width="320" height="460" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="780" y="98" text-anchor="middle" class="sec">Algorithm Summary</text>
+
+  <!-- Why gradient truncation -->
+  <rect x="638" y="110" width="284" height="100" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="780" y="128" text-anchor="middle" class="sec" fill="#1d4ed8">Why gradient truncation?</text>
+  <text x="648" y="147" class="small">Full BPTT through 4 steps × N frames</text>
+  <text x="648" y="163" class="small">= huge memory + unstable gradients</text>
+  <text x="648" y="179" class="small">Truncate to 1 step: tractable + stable</text>
+  <text x="648" y="197" class="small">Stochastic s ensures all steps trained</text>
+
+  <!-- Why stochastic step -->
+  <rect x="638" y="222" width="284" height="100" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="780" y="240" text-anchor="middle" class="sec" fill="#15803d">Why stochastic step sampling?</text>
+  <text x="648" y="259" class="small">If always s=1: only step 1 gets gradient</text>
+  <text x="648" y="275" class="small">→ model ignores steps 2,3,4</text>
+  <text x="648" y="291" class="small">Random s: each step gets gradient</text>
+  <text x="648" y="307" class="small">over many training iterations</text>
+
+  <!-- What is cached -->
+  <rect x="638" y="334" width="284" height="90" rx="6" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+  <text x="780" y="352" text-anchor="middle" class="sec" fill="#92400e">What is cached as KV?</text>
+  <text x="648" y="371" class="small">The clean prediction x̂₀^i (not noisy)</text>
+  <text x="648" y="387" class="small">Passed through model at t=0</text>
+  <text x="648" y="403" class="small">Simulates exactly what happens at</text>
+  <text x="648" y="419" class="small">inference (final denoised frame)</text>
+
+  <!-- Distribution matching -->
+  <rect x="638" y="436" width="284" height="78" rx="6" fill="#fdf4ff" stroke="#d8b4fe" stroke-width="1.5"/>
+  <text x="780" y="454" text-anchor="middle" class="sec" fill="#7c3aed">Distribution matching loss</text>
+  <text x="648" y="473" class="small">After rollout of N frames,</text>
+  <text x="648" y="489" class="small">apply DMD/SiD/GAN on full video</text>
+  <text x="648" y="505" class="small">to align p_θ(x^{1:N}) → p_data</text>
+</svg>

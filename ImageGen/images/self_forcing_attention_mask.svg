@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="440" viewBox="0 0 980 440">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 20px Arial, sans-serif; fill: #0f172a; }
+      .sec   { font: 700 14px Arial, sans-serif; fill: #1e293b; }
+      .small { font: 12px Arial, sans-serif; fill: #475569; }
+      .tiny  { font: 11px Arial, sans-serif; fill: #64748b; }
+      .mono  { font: 12px 'Courier New', monospace; fill: #0f172a; }
+      .arrow { stroke: #334155; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+    </style>
+  </defs>
+
+  <rect x="10" y="10" width="960" height="420" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="14"/>
+  <text x="490" y="46" text-anchor="middle" class="title">Attention Mask Comparison (3 frames, 2 tokens per frame)</text>
+
+  <!-- ─────────────────────────────────────────────
+       (a) Teacher Forcing  — left panel
+  ───────────────────────────────────────────── -->
+  <rect x="30" y="60" width="270" height="26" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="165" y="78" text-anchor="middle" class="sec" fill="#1d4ed8">(a) Teacher Forcing</text>
+
+  <!-- axis labels -->
+  <text x="165" y="105" text-anchor="middle" class="tiny">Query token (row) × Key token (col)</text>
+
+  <!-- col headers: t1 t2 | t3 t4 | t5 t6 -->
+  <text x="110" y="128" text-anchor="middle" class="tiny">F1</text>
+  <text x="148" y="128" text-anchor="middle" class="tiny">F1</text>
+  <text x="186" y="128" text-anchor="middle" class="tiny">F2</text>
+  <text x="224" y="128" text-anchor="middle" class="tiny">F2</text>
+  <text x="262" y="128" text-anchor="middle" class="tiny">F3</text>
+  <text x="300" y="128" text-anchor="middle" class="tiny">F3</text>
+
+  <!-- row labels -->
+  <text x="86" y="148" text-anchor="end" class="tiny">F1</text>
+  <text x="86" y="168" text-anchor="end" class="tiny">F1</text>
+  <text x="86" y="188" text-anchor="end" class="tiny">F2</text>
+  <text x="86" y="208" text-anchor="end" class="tiny">F2</text>
+  <text x="86" y="228" text-anchor="end" class="tiny">F3</text>
+  <text x="86" y="248" text-anchor="end" class="tiny">F3</text>
+
+  <!-- attention cells (6x6 grid, cell size 30x20) -->
+  <!-- allowed = blue, blocked = light gray -->
+  <!-- F1 row: can attend to F1 only -->
+  <rect x="91" y="135" width="30" height="20" fill="#3b82f6" rx="2"/>   <!-- F1→F1 -->
+  <rect x="129" y="135" width="30" height="20" fill="#3b82f6" rx="2"/>  <!-- F1→F1 -->
+  <rect x="167" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>  <!-- F1→F2 blocked -->
+  <rect x="205" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="243" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="281" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <rect x="91" y="158" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="129" y="158" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="167" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="205" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="243" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="281" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <!-- F2 row: can attend to F1 + F2 -->
+  <rect x="91" y="181" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="129" y="181" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="167" y="181" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="205" y="181" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="243" y="181" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="281" y="181" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <rect x="91" y="204" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="129" y="204" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="167" y="204" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="205" y="204" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="243" y="204" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="281" y="204" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <!-- F3 row: can attend to all -->
+  <rect x="91" y="227" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="129" y="227" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="167" y="227" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="205" y="227" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="243" y="227" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="281" y="227" width="30" height="20" fill="#3b82f6" rx="2"/>
+
+  <rect x="91" y="250" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="129" y="250" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="167" y="250" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="205" y="250" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="243" y="250" width="30" height="20" fill="#3b82f6" rx="2"/>
+  <rect x="281" y="250" width="30" height="20" fill="#3b82f6" rx="2"/>
+
+  <!-- legend -->
+  <rect x="91" y="284" width="14" height="14" fill="#3b82f6" rx="2"/>
+  <text x="110" y="296" class="tiny">attend</text>
+  <rect x="155" y="284" width="14" height="14" fill="#e2e8f0" rx="2" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="174" y="296" class="tiny">masked</text>
+
+  <text x="165" y="320" text-anchor="middle" class="small" fill="#dc2626">Custom causal mask needed</text>
+  <text x="165" y="338" text-anchor="middle" class="small" fill="#dc2626">All frames processed in parallel</text>
+  <text x="165" y="356" text-anchor="middle" class="small" fill="#dc2626">Training context ≠ Inference</text>
+
+
+  <!-- ─────────────────────────────────────────────
+       (b) Diffusion Forcing  — middle panel
+  ───────────────────────────────────────────── -->
+  <rect x="354" y="60" width="270" height="26" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="489" y="78" text-anchor="middle" class="sec" fill="#92400e">(b) Diffusion Forcing</text>
+
+  <text x="489" y="105" text-anchor="middle" class="tiny">Same mask structure as TF — runs in parallel</text>
+
+  <!-- col headers -->
+  <text x="434" y="128" text-anchor="middle" class="tiny">F1</text>
+  <text x="472" y="128" text-anchor="middle" class="tiny">F1</text>
+  <text x="510" y="128" text-anchor="middle" class="tiny">F2</text>
+  <text x="548" y="128" text-anchor="middle" class="tiny">F2</text>
+  <text x="586" y="128" text-anchor="middle" class="tiny">F3</text>
+  <text x="624" y="128" text-anchor="middle" class="tiny">F3</text>
+
+  <text x="410" y="148" text-anchor="end" class="tiny">F1</text>
+  <text x="410" y="168" text-anchor="end" class="tiny">F1</text>
+  <text x="410" y="188" text-anchor="end" class="tiny">F2</text>
+  <text x="410" y="208" text-anchor="end" class="tiny">F2</text>
+  <text x="410" y="228" text-anchor="end" class="tiny">F3</text>
+  <text x="410" y="248" text-anchor="end" class="tiny">F3</text>
+
+  <!-- same pattern as TF but orange -->
+  <rect x="415" y="135" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="453" y="135" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="491" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="529" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="567" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="605" y="135" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <rect x="415" y="158" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="453" y="158" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="491" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="529" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="567" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="605" y="158" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <rect x="415" y="181" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="453" y="181" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="491" y="181" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="529" y="181" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="567" y="181" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="605" y="181" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <rect x="415" y="204" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="453" y="204" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="491" y="204" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="529" y="204" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="567" y="204" width="30" height="20" fill="#e2e8f0" rx="2"/>
+  <rect x="605" y="204" width="30" height="20" fill="#e2e8f0" rx="2"/>
+
+  <rect x="415" y="227" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="453" y="227" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="491" y="227" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="529" y="227" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="567" y="227" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="605" y="227" width="30" height="20" fill="#f59e0b" rx="2"/>
+
+  <rect x="415" y="250" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="453" y="250" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="491" y="250" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="529" y="250" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="567" y="250" width="30" height="20" fill="#f59e0b" rx="2"/>
+  <rect x="605" y="250" width="30" height="20" fill="#f59e0b" rx="2"/>
+
+  <rect x="415" y="284" width="14" height="14" fill="#f59e0b" rx="2"/>
+  <text x="434" y="296" class="tiny">attend</text>
+  <rect x="479" y="284" width="14" height="14" fill="#e2e8f0" rx="2" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="498" y="296" class="tiny">masked</text>
+
+  <text x="489" y="320" text-anchor="middle" class="small" fill="#92400e">Same custom mask overhead</text>
+  <text x="489" y="338" text-anchor="middle" class="small" fill="#92400e">Noisy context ≠ clean inference context</text>
+  <text x="489" y="356" text-anchor="middle" class="small" fill="#dc2626">Wrong noise distribution at test time</text>
+
+
+  <!-- ─────────────────────────────────────────────
+       (c) Self Forcing  — right panel
+  ───────────────────────────────────────────── -->
+  <rect x="678" y="60" width="270" height="26" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="813" y="78" text-anchor="middle" class="sec" fill="#15803d">(c) Self Forcing</text>
+
+  <text x="813" y="105" text-anchor="middle" class="tiny">Sequential KV-cached generation (same as inference)</text>
+
+  <!-- Step 1: generate frame 1 -->
+  <rect x="688" y="130" width="80" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="728" y="148" text-anchor="middle" class="sec" fill="#15803d">Frame 1</text>
+  <text x="728" y="164" text-anchor="middle" class="tiny">full self-attn</text>
+
+  <!-- cache kv1 -->
+  <rect x="688" y="192" width="80" height="32" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="728" y="213" text-anchor="middle" class="tiny" fill="#16a34a">cache kv¹</text>
+
+  <!-- Step 2: generate frame 2 -->
+  <rect x="790" y="130" width="80" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="830" y="148" text-anchor="middle" class="sec" fill="#15803d">Frame 2</text>
+  <text x="830" y="164" text-anchor="middle" class="tiny">self-attn + kv¹</text>
+
+  <rect x="790" y="192" width="80" height="32" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="830" y="213" text-anchor="middle" class="tiny" fill="#16a34a">cache kv²</text>
+
+  <!-- arrows between frames -->
+  <path d="M768 207 H789" class="arrow"/>
+
+  <!-- Step 3: generate frame 3 (below) -->
+  <rect x="688" y="245" width="182" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="779" y="263" text-anchor="middle" class="sec" fill="#15803d">Frame 3</text>
+  <text x="779" y="279" text-anchor="middle" class="tiny">self-attn + kv¹ + kv²</text>
+
+  <!-- arrow from frame2 cache down -->
+  <path d="M830 224 L830 243" class="arrow"/>
+
+  <!-- annotation: no special mask -->
+  <rect x="688" y="305" width="250" height="58" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="813" y="322" text-anchor="middle" class="small" fill="#15803d">Standard full attention per frame</text>
+  <text x="813" y="340" text-anchor="middle" class="small" fill="#15803d">No custom mask — uses FlashAttention-3</text>
+  <text x="813" y="358" text-anchor="middle" class="small" fill="#15803d">Training = Inference exactly ✓</text>
+
+  <!-- ─────────────────────────────────────────────
+       Bottom note
+  ───────────────────────────────────────────── -->
+  <rect x="30" y="385" width="920" height="32" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="490" y="406" text-anchor="middle" class="small" fill="#334155">
+    TF/DF require custom attention masks → slower kernels. Self Forcing uses standard KV-cache attention → FlashAttention-3 → same wall-clock speed despite sequential generation.
+  </text>
+</svg>

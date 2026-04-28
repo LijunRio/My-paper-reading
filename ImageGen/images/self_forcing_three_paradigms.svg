@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <style>
+      .title  { font: 700 20px Arial, sans-serif; fill: #0f172a; }
+      .sec    { font: 700 14px Arial, sans-serif; fill: #1e293b; }
+      .small  { font: 12px Arial, sans-serif; fill: #475569; }
+      .tiny   { font: 11px Arial, sans-serif; fill: #64748b; }
+      .label  { font: 700 12px Arial, sans-serif; }
+      .arrow  { stroke: #334155; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+      .arrow-r{ stroke: #dc2626; stroke-width: 1.8; fill: none; marker-end: url(#arr-red); }
+      .arrow-g{ stroke: #16a34a; stroke-width: 1.8; fill: none; marker-end: url(#arr-green); }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect x="10" y="10" width="980" height="480" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="14"/>
+  <text x="500" y="45" text-anchor="middle" class="title">Three Training Paradigms for Autoregressive Video Diffusion</text>
+
+  <!-- ── COLUMN HEADERS ── -->
+  <!-- (a) Teacher Forcing -->
+  <rect x="30" y="62" width="296" height="32" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="178" y="83" text-anchor="middle" class="sec" fill="#1d4ed8">(a) Teacher Forcing</text>
+
+  <!-- (b) Diffusion Forcing -->
+  <rect x="352" y="62" width="296" height="32" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="500" y="83" text-anchor="middle" class="sec" fill="#92400e">(b) Diffusion Forcing</text>
+
+  <!-- (c) Self Forcing -->
+  <rect x="674" y="62" width="296" height="32" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="822" y="83" text-anchor="middle" class="sec" fill="#15803d">(c) Self Forcing (Ours)</text>
+
+  <!-- ═══════════════════════════════════════════════
+       TRAINING ROWS
+  ═══════════════════════════════════════════════ -->
+  <text x="500" y="118" text-anchor="middle" font="700 13px Arial" fill="#64748b" font-family="Arial" font-size="13" font-weight="700">TRAINING</text>
+
+  <!-- --- (a) Teacher Forcing training --- -->
+  <!-- frame 1: GT -->
+  <rect x="40" y="130" width="64" height="44" rx="6" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="72" y="148" text-anchor="middle" class="label" fill="#1d4ed8">x¹</text>
+  <text x="72" y="165" text-anchor="middle" class="tiny">GT clean</text>
+
+  <!-- frame 2: GT -->
+  <rect x="120" y="130" width="64" height="44" rx="6" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="152" y="148" text-anchor="middle" class="label" fill="#1d4ed8">x²</text>
+  <text x="152" y="165" text-anchor="middle" class="tiny">GT clean</text>
+
+  <!-- frame 3: model output -->
+  <rect x="200" y="130" width="64" height="44" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="232" y="148" text-anchor="middle" class="label" fill="#0369a1">x³</text>
+  <text x="232" y="165" text-anchor="middle" class="tiny">predict</text>
+
+  <!-- arrow: gt x1 → model -->
+  <path d="M104 152 H118" class="arrow"/>
+  <path d="M184 152 H198" class="arrow"/>
+
+  <!-- conditioned-on label -->
+  <text x="132" y="194" text-anchor="middle" class="tiny" fill="#dc2626">context = GT frames</text>
+  <text x="132" y="208" text-anchor="middle" class="tiny" fill="#dc2626">never seen at inference!</text>
+
+  <!-- --- (b) Diffusion Forcing training --- -->
+  <!-- frame 1: noisy GT -->
+  <rect x="362" y="130" width="64" height="44" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+  <text x="394" y="148" text-anchor="middle" class="label" fill="#92400e">x¹_t₁</text>
+  <text x="394" y="165" text-anchor="middle" class="tiny">noisy GT</text>
+
+  <!-- frame 2: noisy GT -->
+  <rect x="442" y="130" width="64" height="44" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+  <text x="474" y="148" text-anchor="middle" class="label" fill="#92400e">x²_t₂</text>
+  <text x="474" y="165" text-anchor="middle" class="tiny">noisy GT</text>
+
+  <!-- frame 3: model output -->
+  <rect x="522" y="130" width="64" height="44" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="554" y="148" text-anchor="middle" class="label" fill="#854d0e">x³</text>
+  <text x="554" y="165" text-anchor="middle" class="tiny">predict</text>
+
+  <path d="M426 152 H440" class="arrow"/>
+  <path d="M506 152 H520" class="arrow"/>
+
+  <text x="456" y="194" text-anchor="middle" class="tiny" fill="#dc2626">context = indep. noisy GT</text>
+  <text x="456" y="208" text-anchor="middle" class="tiny" fill="#dc2626">t₁,t₂ ≠ inference distribution!</text>
+
+  <!-- --- (c) Self Forcing training --- -->
+  <!-- frame 1: model gen -->
+  <rect x="684" y="130" width="64" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="716" y="148" text-anchor="middle" class="label" fill="#15803d">x̂¹_θ</text>
+  <text x="716" y="165" text-anchor="middle" class="tiny">self-gen</text>
+
+  <!-- frame 2: model gen -->
+  <rect x="764" y="130" width="64" height="44" rx="6" fill="#bbf7d0" stroke="#16a34a" stroke-width="2"/>
+  <text x="796" y="148" text-anchor="middle" class="label" fill="#15803d">x̂²_θ</text>
+  <text x="796" y="165" text-anchor="middle" class="tiny">self-gen</text>
+
+  <!-- frame 3: model output -->
+  <rect x="844" y="130" width="64" height="44" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="876" y="148" text-anchor="middle" class="label" fill="#15803d">x̂³_θ</text>
+  <text x="876" y="165" text-anchor="middle" class="tiny">predict</text>
+
+  <path d="M748 152 H762" class="arrow-g"/>
+  <path d="M828 152 H842" class="arrow-g"/>
+
+  <text x="778" y="194" text-anchor="middle" class="tiny" fill="#15803d">context = model's own output</text>
+  <text x="778" y="208" text-anchor="middle" class="tiny" fill="#15803d">exact inference distribution ✓</text>
+
+  <!-- ═══════════════════════════════════════════════
+       DIVIDER
+  ═══════════════════════════════════════════════ -->
+  <line x1="30" y1="230" x2="970" y2="230" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="500" y="252" text-anchor="middle" font="700 13px Arial" fill="#64748b" font-family="Arial" font-size="13" font-weight="700">INFERENCE (same for all)</text>
+
+  <!-- ── Inference row (identical for all 3) ── -->
+  <!-- (a) inference -->
+  <rect x="40" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="72" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂¹_θ</text>
+  <text x="72" y="300" text-anchor="middle" class="tiny">generated</text>
+  <rect x="120" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="152" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂²_θ</text>
+  <text x="152" y="300" text-anchor="middle" class="tiny">generated</text>
+  <rect x="200" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="232" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂³_θ</text>
+  <text x="232" y="300" text-anchor="middle" class="tiny">generated</text>
+  <path d="M104 287 H118" class="arrow"/>
+  <path d="M184 287 H198" class="arrow"/>
+
+  <!-- (b) inference -->
+  <rect x="362" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="394" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂¹_θ</text>
+  <text x="394" y="300" text-anchor="middle" class="tiny">generated</text>
+  <rect x="442" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="474" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂²_θ</text>
+  <text x="474" y="300" text-anchor="middle" class="tiny">generated</text>
+  <rect x="522" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="554" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂³_θ</text>
+  <text x="554" y="300" text-anchor="middle" class="tiny">generated</text>
+  <path d="M426 287 H440" class="arrow"/>
+  <path d="M506 287 H520" class="arrow"/>
+
+  <!-- (c) inference -->
+  <rect x="684" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="716" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂¹_θ</text>
+  <text x="716" y="300" text-anchor="middle" class="tiny">generated</text>
+  <rect x="764" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="796" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂²_θ</text>
+  <text x="796" y="300" text-anchor="middle" class="tiny">generated</text>
+  <rect x="844" y="265" width="64" height="44" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="876" y="283" text-anchor="middle" class="label" fill="#5b21b6">x̂³_θ</text>
+  <text x="876" y="300" text-anchor="middle" class="tiny">generated</text>
+  <path d="M748 287 H762" class="arrow-g"/>
+  <path d="M828 287 H842" class="arrow-g"/>
+
+  <!-- ═══════════════════════════════════════════════
+       DISTRIBUTION MISMATCH ARROWS
+  ═══════════════════════════════════════════════ -->
+  <!-- (a) mismatch -->
+  <line x1="152" y1="176" x2="152" y2="263" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="280" y="332" text-anchor="middle" class="tiny" fill="#dc2626">Train context ≠ Inference context</text>
+  <text x="130" y="346" text-anchor="middle" font-family="Arial" font-size="22" fill="#dc2626">✗</text>
+
+  <!-- (b) mismatch -->
+  <line x1="474" y1="176" x2="474" y2="263" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="456" y="332" text-anchor="middle" class="tiny" fill="#dc2626">Train context ≠ Inference context</text>
+  <text x="456" y="346" text-anchor="middle" font-family="Arial" font-size="22" fill="#dc2626">✗</text>
+
+  <!-- (c) match -->
+  <line x1="796" y1="176" x2="796" y2="263" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="778" y="332" text-anchor="middle" class="tiny" fill="#15803d">Train context = Inference context</text>
+  <text x="778" y="346" text-anchor="middle" font-family="Arial" font-size="22" fill="#16a34a">✓</text>
+
+  <!-- ═══════════════════════════════════════════════
+       SUMMARY BOX
+  ═══════════════════════════════════════════════ -->
+  <rect x="30" y="375" width="940" height="100" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="500" y="398" text-anchor="middle" class="sec" fill="#0f172a">Key Insight: Exposure Bias</text>
+  <text x="50" y="420" class="small">• Teacher Forcing: model conditions on perfect GT — never trains to recover from its own errors</text>
+  <text x="50" y="440" class="small">• Diffusion Forcing: noisy GT context ≠ clean generated context seen at inference (wrong noise distribution)</text>
+  <text x="50" y="460" class="small">• Self Forcing: training rollout is identical to inference — the model learns to condition on its own imperfect outputs</text>
+</svg>

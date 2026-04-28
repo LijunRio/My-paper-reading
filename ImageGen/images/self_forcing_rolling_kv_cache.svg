@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <style>
+      .title  { font: 700 20px Arial, sans-serif; fill: #0f172a; }
+      .sec    { font: 700 13px Arial, sans-serif; fill: #1e293b; }
+      .small  { font: 12px Arial, sans-serif; fill: #475569; }
+      .tiny   { font: 11px Arial, sans-serif; fill: #64748b; }
+      .code   { font: 11px 'Courier New', monospace; fill: #1e293b; }
+      .arrow  { stroke: #334155; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+      .arrow-r{ stroke: #dc2626; stroke-width: 1.8; fill: none; marker-end: url(#arr-r); }
+      .arrow-g{ stroke: #16a34a; stroke-width: 1.8; fill: none; marker-end: url(#arr-g); }
+    </style>
+  </defs>
+
+  <rect x="10" y="10" width="960" height="500" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="14"/>
+  <text x="490" y="46" text-anchor="middle" class="title">Rolling KV Cache for Long Video Generation</text>
+
+  <!-- ─────────────────────────────────────────────
+       Complexity comparison — 3 columns
+  ───────────────────────────────────────────── -->
+  <!-- (a) Bidirectional / TF  -->
+  <rect x="30" y="60" width="280" height="26" rx="5" fill="#fee2e2" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="170" y="78" text-anchor="middle" class="sec" fill="#b91c1c">(a) Bidirectional (TF/DF)</text>
+
+  <!-- window of 4 frames, must recompute whole window -->
+  <text x="170" y="102" text-anchor="middle" class="tiny">Window [F1 F2 F3 F4] → generate F5 → reprocess full window</text>
+
+  <!-- frames -->
+  <rect x="40" y="112" width="36" height="36" rx="4" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="58" y="135" text-anchor="middle" class="code">F1</text>
+  <rect x="84" y="112" width="36" height="36" rx="4" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="102" y="135" text-anchor="middle" class="code">F2</text>
+  <rect x="128" y="112" width="36" height="36" rx="4" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="146" y="135" text-anchor="middle" class="code">F3</text>
+  <rect x="172" y="112" width="36" height="36" rx="4" fill="#fecaca" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="190" y="135" text-anchor="middle" class="code">F4</text>
+
+  <path d="M215 130 H248" class="arrow"/>
+
+  <!-- new frame -->
+  <rect x="254" y="112" width="36" height="36" rx="4" fill="#fee2e2" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="272" y="135" text-anchor="middle" class="code" fill="#dc2626">F5</text>
+
+  <!-- recompute arrow -->
+  <path d="M272 150 C272 170 130 170 58 150" class="arrow-r"/>
+  <text x="165" y="188" text-anchor="middle" class="tiny" fill="#dc2626">must re-run full bidirectional attention</text>
+  <text x="165" y="202" text-anchor="middle" class="tiny" fill="#dc2626">no KV cache support</text>
+
+  <!-- complexity box -->
+  <rect x="40" y="215" width="260" height="30" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="170" y="235" text-anchor="middle" class="sec" fill="#b91c1c">Complexity: O(T · L²)</text>
+
+
+  <!-- (b) CausVid — middle -->
+  <rect x="348" y="60" width="280" height="26" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="488" y="78" text-anchor="middle" class="sec" fill="#92400e">(b) CausVid (prior causal)</text>
+
+  <text x="488" y="102" text-anchor="middle" class="tiny">Window [F2 F3 F4 F5]: evict F1, but must recompute KV for F2..F4</text>
+
+  <!-- before eviction -->
+  <rect x="358" y="112" width="36" height="36" rx="4" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+  <text x="376" y="135" text-anchor="middle" class="code">F1</text>
+  <rect x="402" y="112" width="36" height="36" rx="4" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+  <text x="420" y="135" text-anchor="middle" class="code">F2</text>
+  <rect x="446" y="112" width="36" height="36" rx="4" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+  <text x="464" y="135" text-anchor="middle" class="code">F3</text>
+  <rect x="490" y="112" width="36" height="36" rx="4" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+  <text x="508" y="135" text-anchor="middle" class="code">F4</text>
+
+  <path d="M534 130 H564" class="arrow"/>
+
+  <rect x="570" y="112" width="36" height="36" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="588" y="135" text-anchor="middle" class="code" fill="#854d0e">F5</text>
+
+  <!-- evict and recompute -->
+  <path d="M376 150 L376 165" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="376" y="178" text-anchor="middle" class="tiny" fill="#dc2626">evict</text>
+  <path d="M420 150 C420 180 480 180 508 155" class="arrow-r"/>
+  <text x="464" y="196" text-anchor="middle" class="tiny" fill="#dc2626">recompute KV for F2, F3, F4</text>
+
+  <rect x="358" y="215" width="260" height="30" rx="4" fill="#fffbeb" stroke="#fcd34d" stroke-width="1"/>
+  <text x="488" y="235" text-anchor="middle" class="sec" fill="#92400e">Complexity: O(L² + T·L)</text>
+
+
+  <!-- (c) Self Forcing — right -->
+  <rect x="668" y="60" width="280" height="26" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="808" y="78" text-anchor="middle" class="sec" fill="#15803d">(c) Self Forcing (rolling cache)</text>
+
+  <text x="808" y="102" text-anchor="middle" class="tiny">Window [F2 F3 F4 F5]: evict F1, append F5 — no recompute</text>
+
+  <rect x="678" y="112" width="36" height="36" rx="4" fill="#fecaca" stroke="#ef4444" stroke-width="1.5" opacity="0.4"/>
+  <text x="696" y="135" text-anchor="middle" class="code" fill="#94a3b8">F1</text>
+  <!-- strikethrough -->
+  <line x1="678" y1="112" x2="714" y2="148" stroke="#ef4444" stroke-width="2"/>
+
+  <rect x="722" y="112" width="36" height="36" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="740" y="135" text-anchor="middle" class="code" fill="#15803d">F2</text>
+  <rect x="766" y="112" width="36" height="36" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="784" y="135" text-anchor="middle" class="code" fill="#15803d">F3</text>
+  <rect x="810" y="112" width="36" height="36" rx="4" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="828" y="135" text-anchor="middle" class="code" fill="#15803d">F4</text>
+
+  <path d="M854 130 H884" class="arrow-g"/>
+
+  <rect x="890" y="112" width="36" height="36" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="908" y="135" text-anchor="middle" class="code" fill="#15803d">F5</text>
+
+  <!-- just append -->
+  <path d="M908 150 L908 170 L740 170 L740 150" class="arrow-g"/>
+  <text x="808" y="190" text-anchor="middle" class="tiny" fill="#15803d">just evict F1, append kv⁵ — O(1) cache update</text>
+
+  <rect x="678" y="215" width="260" height="30" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="808" y="235" text-anchor="middle" class="sec" fill="#15803d">Complexity: O(T · L)  ← best</text>
+
+  <!-- ─────────────────────────────────────────────
+       Cache Eviction Problem & Fix
+  ───────────────────────────────────────────── -->
+  <line x1="30" y1="260" x2="950" y2="260" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6 4"/>
+
+  <text x="490" y="284" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#1e293b">Cache Eviction Distribution Mismatch — and the Fix</text>
+
+  <!-- Problem side -->
+  <rect x="30" y="296" width="440" height="180" rx="8" fill="#fff1f2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="250" y="318" text-anchor="middle" class="sec" fill="#b91c1c">Naive Rolling Cache: Distribution Mismatch</text>
+
+  <!-- training window -->
+  <text x="50" y="340" class="tiny" fill="#334155">Training (window size L=3):</text>
+  <rect x="50" y="348" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="68" y="366" text-anchor="middle" class="code">F1</text>
+  <rect x="94" y="348" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="112" y="366" text-anchor="middle" class="code">F2</text>
+  <rect x="138" y="348" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="156" y="366" text-anchor="middle" class="code">F3</text>
+  <text x="185" y="365" class="tiny" fill="#334155">← can always attend to F1</text>
+
+  <!-- inference window after eviction -->
+  <text x="50" y="394" class="tiny" fill="#334155">Inference (after eviction):</text>
+  <rect x="50" y="402" width="36" height="28" rx="3" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5" opacity="0.4"/>
+  <text x="68" y="420" text-anchor="middle" class="code" fill="#94a3b8">F1</text>
+  <line x1="50" y1="402" x2="86" y2="430" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="94" y="402" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="112" y="420" text-anchor="middle" class="code">F2</text>
+  <rect x="138" y="402" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="156" y="420" text-anchor="middle" class="code">F3</text>
+  <rect x="182" y="402" width="36" height="28" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="200" y="420" text-anchor="middle" class="code">F4</text>
+  <text x="225" y="418" class="tiny" fill="#dc2626">← F1 evicted, never seen</text>
+  <text x="225" y="432" class="tiny" fill="#dc2626">in training!</text>
+
+  <text x="250" y="458" text-anchor="middle" class="small" fill="#dc2626">Model trained to use F1 but at inference F1 is gone → artifacts</text>
+
+  <!-- Fix side -->
+  <rect x="500" y="296" width="440" height="180" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="720" y="318" text-anchor="middle" class="sec" fill="#15803d">Fix: Local Attention Window Restriction</text>
+
+  <text x="520" y="340" class="tiny" fill="#334155">Training (last chunk blocked from attending to first chunk):</text>
+
+  <!-- chunk 1: frames F1 F2 -->
+  <rect x="520" y="352" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="538" y="370" text-anchor="middle" class="code">F1</text>
+  <rect x="564" y="352" width="36" height="28" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="582" y="370" text-anchor="middle" class="code">F2</text>
+
+  <!-- divider -->
+  <line x1="608" y1="348" x2="608" y2="384" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="608" y="345" text-anchor="middle" class="tiny" fill="#dc2626">block</text>
+
+  <!-- chunk 2: frames F3 F4 — cannot attend back to F1 F2 -->
+  <rect x="616" y="352" width="36" height="28" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="634" y="370" text-anchor="middle" class="code">F3</text>
+  <rect x="660" y="352" width="36" height="28" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="678" y="370" text-anchor="middle" class="code">F4</text>
+
+  <!-- crossed out backward arrows -->
+  <line x1="616" y1="370" x2="608" y2="370" stroke="#dc2626" stroke-width="2"/>
+  <text x="690" y="370" class="tiny" fill="#334155">F3, F4 cannot see F1, F2</text>
+
+  <text x="720" y="405" text-anchor="middle" class="small" fill="#15803d">During training, model learns to generate without attending to evicted frames</text>
+  <text x="720" y="423" text-anchor="middle" class="small" fill="#15803d">Training matches inference boundary condition exactly</text>
+  <text x="720" y="458" text-anchor="middle" class="small" fill="#15803d">Result: no flickering artifacts during long video extrapolation ✓</text>
+</svg>
