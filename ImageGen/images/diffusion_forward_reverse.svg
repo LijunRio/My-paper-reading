@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <linearGradient id="cleanNoise" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 22px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Arial, sans-serif; fill: #0f172a; }
+      .small { font: 13px Arial, sans-serif; fill: #334155; }
+      .formula { font: 15px Arial, sans-serif; fill: #0f172a; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 10; }
+      .latent { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .noise { fill: #111827; stroke: #0f172a; stroke-width: 2; rx: 8; }
+      .model { fill: #fef3c7; stroke: #d97706; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="944" height="384" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="14"/>
+  <text x="490" y="54" text-anchor="middle" class="title">Diffusion: add noise during training, remove noise during generation</text>
+
+  <text x="80" y="100" class="label">Forward process q</text>
+  <text x="80" y="124" class="small">known noising process, no neural network needed</text>
+
+  <rect x="70" y="152" width="110" height="78" class="latent"/>
+  <text x="125" y="184" text-anchor="middle" class="label">z0</text>
+  <text x="125" y="207" text-anchor="middle" class="small">clean latent</text>
+
+  <path d="M190 191 H278" class="arrow"/>
+  <text x="234" y="174" text-anchor="middle" class="small">sample t, epsilon</text>
+
+  <rect x="288" y="152" width="110" height="78" fill="#dbeafe" stroke="#60a5fa" stroke-width="2" rx="8"/>
+  <text x="343" y="184" text-anchor="middle" class="label">zt</text>
+  <text x="343" y="207" text-anchor="middle" class="small">partly noisy</text>
+
+  <path d="M408 191 H496" class="arrow"/>
+  <text x="452" y="174" text-anchor="middle" class="small">more noise</text>
+
+  <rect x="506" y="152" width="110" height="78" fill="#94a3b8" stroke="#64748b" stroke-width="2" rx="8"/>
+  <text x="561" y="184" text-anchor="middle" class="label">zT</text>
+  <text x="561" y="207" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="13">near Gaussian</text>
+
+  <text x="70" y="268" class="formula">zt = sqrt(alpha_bar_t) z0 + sqrt(1 - alpha_bar_t) epsilon</text>
+  <text x="70" y="292" class="small">Transfusion applies this to VAE image latents before patchification.</text>
+
+  <text x="670" y="100" class="label">Reverse process p_theta</text>
+  <text x="670" y="124" class="small">learned denoising process used at inference</text>
+
+  <rect x="650" y="152" width="110" height="78" class="noise"/>
+  <text x="705" y="184" text-anchor="middle" fill="#ffffff" font-family="Arial" font-weight="700" font-size="15">zT</text>
+  <text x="705" y="207" text-anchor="middle" fill="#e5e7eb" font-family="Arial" font-size="13">pure noise</text>
+
+  <path d="M766 191 H842" class="arrow"/>
+  <rect x="842" y="144" width="96" height="94" class="model"/>
+  <text x="890" y="176" text-anchor="middle" class="label">model</text>
+  <text x="890" y="199" text-anchor="middle" class="small">predicts</text>
+  <text x="890" y="219" text-anchor="middle" class="small">epsilon_hat</text>
+
+  <path d="M844 244 C790 300 724 300 672 244" class="dash"/>
+  <text x="758" y="318" text-anchor="middle" class="small">iteratively update zt -> z(t-1)</text>
+
+  <rect x="650" y="333" width="110" height="42" class="latent"/>
+  <text x="705" y="360" text-anchor="middle" class="label">z0 image latent</text>
+
+  <path d="M705 332 V244" class="dash"/>
+
+  <rect x="70" y="326" width="500" height="50" class="box"/>
+  <text x="86" y="348" class="small">Training target: predict the sampled noise epsilon with MSE.</text>
+  <text x="86" y="369" class="small">Generation: start from Gaussian noise and repeatedly subtract predicted noise.</text>
+</svg>

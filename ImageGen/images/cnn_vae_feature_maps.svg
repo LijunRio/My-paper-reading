@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 15px Arial, sans-serif; fill: #0f172a; }
+      .small { font: 13px Arial, sans-serif; fill: #334155; }
+      .tiny { font: 12px Arial, sans-serif; fill: #475569; }
+      .box { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 2; rx: 10; }
+      .enc { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .dec { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 8; }
+      .latent { fill: #fef3c7; stroke: #d97706; stroke-width: 2; rx: 8; }
+      .sample { fill: #fae8ff; stroke: #c026d3; stroke-width: 2; rx: 8; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="16" y="16" width="1088" height="488" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="16"/>
+  <text x="560" y="52" text-anchor="middle" class="title">CNN VAE / Autoencoder Feature Map Compression</text>
+
+  <text x="72" y="95" class="label">Encoder: convolution + downsampling</text>
+  <text x="72" y="118" class="small">Spatial resolution goes down; channels usually go up.</text>
+
+  <rect x="62" y="150" width="114" height="74" class="enc"/>
+  <text x="119" y="181" text-anchor="middle" class="label">Image x</text>
+  <text x="119" y="204" text-anchor="middle" class="small">256x256x3</text>
+
+  <path d="M184 187 H238" class="arrow"/>
+  <rect x="246" y="150" width="114" height="74" class="enc"/>
+  <text x="303" y="178" text-anchor="middle" class="label">Conv block</text>
+  <text x="303" y="201" text-anchor="middle" class="small">128x128xC</text>
+
+  <path d="M368 187 H422" class="arrow"/>
+  <rect x="430" y="150" width="114" height="74" class="enc"/>
+  <text x="487" y="178" text-anchor="middle" class="label">Conv block</text>
+  <text x="487" y="201" text-anchor="middle" class="small">64x64x2C</text>
+
+  <path d="M552 187 H606" class="arrow"/>
+  <rect x="614" y="150" width="114" height="74" class="enc"/>
+  <text x="671" y="178" text-anchor="middle" class="label">Conv block</text>
+  <text x="671" y="201" text-anchor="middle" class="small">32x32x4C</text>
+
+  <path d="M736 187 H790" class="arrow"/>
+  <rect x="798" y="132" width="122" height="110" class="latent"/>
+  <text x="859" y="162" text-anchor="middle" class="label">Latent heads</text>
+  <text x="859" y="185" text-anchor="middle" class="small">mu(x)</text>
+  <text x="859" y="206" text-anchor="middle" class="small">log sigma^2(x)</text>
+  <text x="859" y="227" text-anchor="middle" class="tiny">32x32x8 in Transfusion</text>
+
+  <path d="M928 187 H970" class="arrow"/>
+  <rect x="978" y="150" width="96" height="74" class="sample"/>
+  <text x="1026" y="177" text-anchor="middle" class="label">Sample z</text>
+  <text x="1026" y="201" text-anchor="middle" class="small">mu + sigma * eps</text>
+
+  <text x="72" y="292" class="label">Decoder: transposed conv / upsampling</text>
+  <text x="72" y="315" class="small">Spatial resolution goes back up; channels go back down to RGB.</text>
+
+  <rect x="978" y="346" width="96" height="74" class="sample"/>
+  <text x="1026" y="374" text-anchor="middle" class="label">z</text>
+  <text x="1026" y="398" text-anchor="middle" class="small">32x32x8</text>
+
+  <path d="M970 383 H900" class="arrow"/>
+  <rect x="778" y="346" width="114" height="74" class="dec"/>
+  <text x="835" y="374" text-anchor="middle" class="label">Up block</text>
+  <text x="835" y="397" text-anchor="middle" class="small">64x64x2C</text>
+
+  <path d="M770 383 H700" class="arrow"/>
+  <rect x="578" y="346" width="114" height="74" class="dec"/>
+  <text x="635" y="374" text-anchor="middle" class="label">Up block</text>
+  <text x="635" y="397" text-anchor="middle" class="small">128x128xC</text>
+
+  <path d="M570 383 H500" class="arrow"/>
+  <rect x="378" y="346" width="114" height="74" class="dec"/>
+  <text x="435" y="374" text-anchor="middle" class="label">Up block</text>
+  <text x="435" y="397" text-anchor="middle" class="small">256x256xC'</text>
+
+  <path d="M370 383 H300" class="arrow"/>
+  <rect x="178" y="346" width="114" height="74" class="dec"/>
+  <text x="235" y="374" text-anchor="middle" class="label">Recon x_hat</text>
+  <text x="235" y="397" text-anchor="middle" class="small">256x256x3</text>
+
+  <path d="M1026 232 V338" class="dash"/>
+
+  <rect x="62" y="452" width="1012" height="32" class="box"/>
+  <text x="78" y="473" class="small">In Transfusion, this VAE latent z is then patchified and mapped into transformer-width vectors; diffusion happens on z, not directly on RGB pixels.</text>
+</svg>
