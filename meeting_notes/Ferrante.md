@@ -47,3 +47,134 @@ Building on this, fairness analysis is performed by comparing RCA-estimated perf
 - Can error (RCA) be decomposed into epistemic vs. aleatoric components? Can model uncertainty replace RCA as a performance proxy?
 - Is uncertainty consistent across subgroups (sex, projection, age)? Do acquisition conditions affect both performance and confidence estimation?
 - Can node-level uncertainty distinguish anatomical ambiguity from model failure? Unified framework for data, model, and shape uncertainty?
+
+
+# Fairness, Bias, and Evaluation in Vision and Language Models
+
+Fairness, bias, and uncertainty.
+
+Main intuition:
+
+- Bias between gender / protected groups.
+- Data dominance may increase bias.
+- Imbalance is often considered for disease labels, but maybe people think less about protected attributes such as male/female, age, race, etc.
+- Intersectional analysis: gender + race, etc.
+
+## 1. Medical Imaging Fairness
+
+Reference / example:
+
+- Gender imbalance in medical imaging datasets produces biased classifiers for computer-aided diagnosis.
+- Back to [2020](https://arxiv.org/abs/2005.10050), not many people looked at gender in this setting.
+
+How to quantify or study gender imbalance:
+
+- Train on the whole dataset, then test separately by male/female.
+- Train on male-only / female-only data, then test separately and cross-test.
+- Compare balanced data, e.g. 50/50 female and male, with extreme imbalance, e.g. 0 female when testing on female.
+- Diversify dataset.
+
+Question:
+
+> What does imbalance cause? Maybe also epistemic uncertainty?
+
+Should we train a classifier per gender?
+
+- My feeling: probably not. Mixing may improve the model.
+
+## 2. Fairness and Uncertainty
+
+Possible connection:
+
+- Aleatoric vs. epistemic uncertainty.
+- "World bias" may appear as uncertainty or systematic error.
+- Need to understand whether subgroup errors are from task difficulty, under-representation, or model bias.
+
+Reference:
+
+- Fairness of Deep Ensembles: On the Interplay Between Per-Group Task Difficulty and Under-Representation: https://arxiv.org/abs/2501.14551
+
+Question:
+
+- Does improving minority-group performance usually harm majority-group performance?
+
+## 3. Balancing / Mitigation Ideas
+
+How to balance:
+
+- Add noise / dropout from one dominant modality.
+- But adding noise is not real difficulty.
+
+References:
+
+- Addressing fairness in artificial intelligence for medical imaging: https://www.nature.com/articles/s41467-022-32186-3
+- Fairness of AI in Medical Imaging MICCAI workshop: https://future-ai.eu
+
+## 4. Fairness for Unobserved Characteristics
+
+References:
+
+- Fairness for Unobserved Characteristics: Insights from Technological Impacts on Queer Communities: https://arxiv.org/abs/2102.04257
+- Implicit Bias in LLMs for Transgender Populations: https://arxiv.org/abs/2602.13253
+
+Question:
+
+- How to study fairness when the characteristic is unobserved or hard to label?
+
+## 5. Implicit Bias in LLMs
+
+Reference:
+
+- Explicitly unbiased large language models still form biased associations: https://www.pnas.org/doi/10.1073/pnas.2416228122
+
+Thoughts:
+
+- Implicit bias may come from pretraining.
+- The bias is human bias from the world.
+- Association tests with words can expose implicit bias from LLMs. Is this data bias?
+- Need to check how to calculate bias and the formula in the PNAS paper.
+
+Decision connection:
+
+- Bias to decision: agent disease part.
+- If the model has bias, it may affect decisions. Need to find the bug/source.
+
+## 6. Modality Bias in LVLMs
+
+Reference:
+
+- Modality Bias in LVLMs: Analyzing and Mitigating Object Hallucination via Attention Lens: https://arxiv.org/abs/2508.02419
+
+Shift focus to text + image:
+
+- The problem: if we give the image and add misleading text, what will happen?
+
+Important:
+
+- MIRAGE: The Illusion of Visual Understanding: https://arxiv.org/abs/2603.21687
+
+EHR system question:
+
+> Is more information always beneficial in multimodal EHR analysis?
+
+Notes:
+
+- Irrelevant context may make some models worse.
+- The model may not find the correct context.
+- Models are not good at disentangling useful information from irrelevant information.
+- Need to find wrong context / misleading context.
+
+## 7. Systematic Bias
+
+Systematic bias may not transfer directly from only one place. It may come from:
+
+- Model design.
+- Data.
+- Pretraining.
+- SFT.
+
+Research questions:
+
+- Bias from the model during decision-making will affect the output. How to find the bug?
+- Different models have different biases. Maybe the source is the data.
+- How to make/measure model bias and find the problem?
